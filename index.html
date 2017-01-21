@@ -6,29 +6,13 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<body onmouseover="cordi(event)">
-
-<div id="scroller" onmousemove="scrollit(event)" onmouseenter="getentrycord(event)"></div>
-<div id="b" style="position:fixed;width:20px;height:20px; color:white;z-index:100; top:0;left:0;">hell</div>
+<body>
+<div id="scroller" onmousemove="scrollit(event)" onmouseenter="getentrycord(event)">
+	<div id="arrowL"></div>
+	<div id="arrowR"></div>
+</div>
+<div id="b" style="position:fixed;width:20px;height:20px; color:black;z-index:100; top:0;left:0;z-index: 101;">hell</div>
 <div id="bckgr"></div>
-
-<div id="main">
-<div id="screensize"></div>
-	<div id="block4"></div>
-	<div id="block2"></div>
-	<div id="block1"></div>
-	<div id="block3"></div>`
-		<div id="dc1"></div>
-		<div id="dc2"></div>
-			<div id="dc3"></div>
-		<div id="dc4"></div>
-<div id="datacenter">1</div>
-
-</div>	
-<div id="image">hello</div>
-<div id="image" style="left:240%"></div>
-
-
 
 <script type="text/javascript" src="script.js"></script>
 <script>
@@ -37,7 +21,7 @@ window.scrollTo(0,500);
 setInterval(function(){
 	
 	var scrolltp=window.pageYOffset;
-	document.getElementById("b").innerHTML=translated+"yes";
+	document.getElementById("b").innerHTML=backgroundWidth+ "||"+ movedata;
 },1000/60)
 </script>
 
