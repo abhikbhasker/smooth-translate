@@ -12,19 +12,10 @@ function crossBtransform(selector,value){
 			selector.style.oTransform=value;
 
 }
-/*style.transform=style.transform||
-				style.webkitTransform||
-				style.mozTransform||
-				style.msTransform||
-				style.oTransform
-*/
-var block1=document.getElementById("block1");
-var block2=document.getElementById("block2");
-var block3=document.getElementById("block3");
-var block4=document.getElementById("block4");
+var bck=document.getElementById("bckgr");
 
-var startpoint=2000,scrollcount=1,scrolling=false,scrolled=false;
-var currentpoint=0,reqdiff=0;
+var startpoint=7000,scrollcount=1,scrolling=false,scrolled=false;
+var currentpoint=0,reqdiff=0,endpos=0;
 var totalscrolled=0,instantscroll=0,directionchange=0,windowWidth=window.innerWidth;
 
 window,scrollTo(0,500);
@@ -38,8 +29,9 @@ function setscroll(){
 		scrolldirection=-1;
 }
 requestAnimationFrame(getdelay);
+windowWidth=window.innerWidth;
 var getdelaydata=0,gddcount=1,diffdelaydata=0;
-var lastpoint=2000,difference=0;
+var lastpoint=7000,difference=0;
 function getdelay(){
 	scrollcount+=1;
 	directionchange+=.2;
@@ -58,18 +50,12 @@ function getdelay(){
 			instantscroll=0;
 		}
 		if(difference>0&&difference>=reqdiff*2){
-			if(difference>=20)
-				reqdiff=20;
-				else{
 			reqdiff=difference/2;
-			instantscroll=reqdiff*scrollcount;}
+			instantscroll=reqdiff*scrollcount;
 			}
 		if(difference<0&&difference<=reqdiff*2){
-			if(difference<=-20)
-				reqdiff=-20;
-				else{
 			reqdiff=difference/2;
-			instantscroll=reqdiff*scrollcount;}
+			instantscroll=reqdiff*scrollcount;
 		}
 		instantscroll+=difference;
 		totalscrolled+=difference;
@@ -80,8 +66,11 @@ function getdelay(){
 var scrolldirection=0;
 requestAnimationFrame(setmove);
 var movedata=0,divider=48*60/1000,theta=0;
-var angle=0;
+var backgroundWidth=window.innerHeight*10000/804;
+var angle=0,halfpisquare=Math.pow(Math.PI/2,2);
 function setmove(){
+	backgroundWidth=window.innerHeight*10000/804;
+	bck.style.width=backgroundWidth+'px';
 	//document.getElementById("block").innerHTML=currentpoint;
 	angle+=.2;
 	//block.style.transform="rotate("+Math.cos(angle)+"deg)";
@@ -96,7 +85,7 @@ function setmove(){
 			if(theta<=Math.PI/2){
 				
 				
-				movedata=movedata+ reqdiff*Math.sin(Math.PI/2-theta);
+				movedata=movedata+ reqdiff*Math.pow(Math.PI/2-theta,2)/halfpisquare;
 			}
 			else{
 				gddcount=0;
@@ -130,20 +119,23 @@ function setmove(){
 				}
 	}
 	if(movedata<0){
-		lastpoint=2000;
+		lastpoint=7000;
 		movedata=1;
-		window.scrollTo(0,2000);
+		window.scrollTo(0,7001);
 	}
-	if(movedata>=0){
-		crossBtransform(block1,"translate3d("+(-movedata/2)+"px,0,0)");
-			crossBtransform(block2,	"translate3d("+(-movedata)/1.5+"px,0,0)");
-		
-		crossBtransform(block3,"translate3d("+(-movedata)+"px,0,0)");
-		crossBtransform(block4,"translate3d("+(-movedata*2)+"px,0,0)");
+	if(movedata>=0&&movedata<=(backgroundWidth- windowWidth)*2){
+		endpos=window.pageYOffset;
+		crossBtransform(bck,"translate3d("+(-movedata/2)+"px,0,0)");
+
 		//translated=movedata/5+xcord- scrollerPosition;
-	//if(currentpoint>=2000)
-	//scroller.style.left=(currentpoint-2000)/5+'px';
-}
+	//if(currentpoint>=7000)
+	//scroller.style.left=(currentpoint-7000)/5+'px';
+	}
+	if(movedata>(backgroundWidth- windowWidth)*2){
+		window.scrollTo(0,endpos-1);
+		movedata=(backgroundWidth- windowWidth)*2;
+		lastpoint=endpos;
+	}
 	requestAnimationFrame(setmove);
 }
 var starty,startx,currenty,currentx;
@@ -161,7 +153,8 @@ function sethover(event){
 function scrollit(event){
 	xcord=event.clientX;
 	translated=xcord- scrollerPosition;
-	window.scrollTo(0,(2000+translated))
+	window.scrollTo(0,(7000+translated))
+
 	//if(translated>=0&&translated<=windowWidth-400)
 	//	scroller.style.transform="translate3d("+0+"px,0,0)";
 	if(movedata<=1){
